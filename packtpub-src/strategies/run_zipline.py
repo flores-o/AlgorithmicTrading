@@ -10,6 +10,7 @@ from zipline import run_algorithm
 from zipline.utils.calendars import register_calendar, get_calendar
 from strategies.base_strategy import BaseStrategy
 from strategies.buy_and_hold import BuyAndHold
+from strategies.auto_correlation import AutoCorrelation
 from os import environ
 
 import pandas as pd
@@ -63,6 +64,8 @@ def run_strategy(strategy_name):
 
     if strategy_name == "buy_and_hold":
         mod = BuyAndHold()
+    elif strategy_name == "auto_correlation":
+        mod = AutoCorrelation()
  
     register_calendar("YAHOO", get_calendar("NYSE"), force=True)
     

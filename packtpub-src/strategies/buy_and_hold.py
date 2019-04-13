@@ -1,27 +1,47 @@
 from zipline.api import order, symbol, record
 from matplotlib import pyplot as plt
 import pandas as pd
+import numpy as np
+
+from joblib import load
+
 
 class BuyAndHold:
     
     stocks = ['AAPL', 'MSFT', "TSLA"]
+    lag = 33
+    forecast = 8
     
     def initialize(self, context):
         context.has_ordered = False
         context.stocks = self.stocks
         context.asset = symbol('AAPL')
+        context.regressor = load("./strategies/models/rf_regressor.joblib")
 
     def handle_data(self, context, data):
-        if not context.has_ordered:
-            for stock in context.stocks:
-                order(symbol(stock), 100)
-            context.has_ordered = True
+        for stock in context.stocks:
+            timeseries = data.history(
+            symbol(stock), 
+            'price',
+            bar_count=self.lag,
+            frequency='1d')
+            np_timeseries = np.array(timeseries.values).reshape(1, -1)
+            preds = context.regressor.predict(np_timeseries)
+            max_price = np.max(preds)
+            historical_mean = np.mean(np_timeseries)
+
+            if max_price > historical_mean:
+                order(symbol(stock), 1000)
+
+            if max_price < historical_mean:
+                order(symbol(stock), -1000)
 
         record(AAPL=data.current(context.asset, 'price'))
+    
 
     def _test_args(self):
         return {
-            'start': pd.Timestamp('2008', tz='utc'),
+            'start': pd.Timestamp('2017', tz='utc'),
             'end': pd.Timestamp('2018', tz='utc'),
             'capital_base': 1e7
         }
