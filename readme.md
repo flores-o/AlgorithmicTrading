@@ -19,4 +19,4 @@ I followed the following papers:
 
 ## Thanks
 
-Thank to the amazing [@lessandro](github.com/solbiatialessandro) for listening to my screaming about this project
+Thank to the amazing [@lessandro](https://www.github.com/solbiatialessandro) for listening to my screaming about this project
