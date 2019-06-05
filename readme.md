@@ -11,3 +11,12 @@ You can find here the notebooks that I used to prepare my bachelor thesis, the p
 3. Baseline predicion model
 
 I use this four models to generate a trivial trading strategy and compare the absolute cumulative returns
+
+## Reference
+
+I followed the following papers:
+- [http://cs229.stanford.edu/proj2017/final-reports/5241098.pdf](http://cs229.stanford.edu/proj2017/final-reports/5241098.pdf)
+
+## Thanks
+
+Thank to the amazing [@lessandro](github.com/solbiatialessandro) for listening to my screaming about this project
